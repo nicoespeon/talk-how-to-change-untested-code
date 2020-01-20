@@ -1,8 +1,12 @@
-Core message: use approval tests to put existing code under tests quickly without understanding it.
+- Core message: use approval tests to put existing code under tests quickly without understanding it.
+
+## Intro
 
 Who is working with existing code?
 Who is working with existing code that you didn't wrote?
 Who is working with existing code that you didn't wrote and is not tested?
+
+## Stories
 
 Let me tell you a story of 2 teams.
 
@@ -19,6 +23,8 @@ But if the feature turns not to be relevant, Team #2 spent too much time finding
 
 But for sure: there is an even better way to do this.
 
+## The 3 approaches
+
 My name is Nicolas. I'm a web dev. Twitter and website.
 
 I work at a company named Busbud. We do an app to search, compare and book intercity bus tickets across the world. If you travel to Bulgaria and want to go from Sofia to Plovdiv, you can use Busbud app and pay in CAD.
@@ -33,6 +39,8 @@ Ok, back to our problem: how to best deal with untested, existing code you have 
 1. Think hard about the code. Don't break things. Mitigate risk by putting your best devs + test on a Preview env + code review + monitor once in prod. Still, that's crossing fingers. That's Edit and Pray. It's playing with fire. It's playing your luck that you don't do any mistake. But the codebase is huge, most of it you didn't wrote and you can't anticipate every possible scenario. If you're unlucky some day, that can cost a lot. And it's stressful. Team #1
 2. Put the code under test. Clean the code. Then change the code. That's great. But that can also take a lot of time. You need to read the code, take notes, draw graphs to understand the dependencies, figure out how it works so you can write the tests how what it should do, after. It's safe, but it's slow. You can have a hard time sell that to your team. They'll beg you for a solution, a compromise. Team #2.
 3. The compromise is to put existing code into tests without having to understand it. Not completely at least. You want to set up anti-regression tests that will tell you when you break something. But you want that fast.
+
+## 3rd approach: Approval Testing
 
 Discover Approval Testing.
 
@@ -53,6 +61,8 @@ Later, you'll need to change current behavior of the code. Snapshot tests will f
 
 Let's try this technique on Gilded Rose kata. It's the easy scenario (direct - direct). We won't have time to cover in details the more complex ones, but I'll give you tips to try that out on your codebase. To go further, go on understandlegacycode.com.
 
+## Apply on a kata
+
 Gilded Rose Kata: coding exercise to practice refactoring. You need to change code. How to make the change simple? You need to refactor. How do you know you didn't break current behavior? You need to put tests. You can read and try to understand what the code should do to write the tests. Or you can try to write the tests from the specs. It'll take you a long time. And maybe that's not even what the code is actually doing.
 
 1. Identify output.
@@ -63,6 +73,8 @@ Gilded Rose Kata: coding exercise to practice refactoring. You need to change co
 6. Vary the inputs to cover more.
 7. We've covered everything, are we safe? Mutate code to check if a test is failing. If not, find another variation of inputs.
 8. Done!
+
+## Going further
 
 Here's my library to reduce boilerplate with jest.
 
