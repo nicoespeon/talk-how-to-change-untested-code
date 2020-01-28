@@ -1,87 +1,126 @@
-- Core message: use approval tests to put existing code under tests quickly without understanding it.
-
-## Intro
+## Intro (2min)
 
 Who is working with existing code?
 Who is working with existing code that you didn't wrote?
 Who is working with existing code that you didn't wrote and is not tested?
 
-## Stories
+## The Problem (2min)
 
-Let me tell you a story of 2 teams.
+> The code requires significant changes to support unit tests. I have deadlines to meet!
 
-Team #1 wants to try out a new feature. The code they need to change is not fully tested, and they don't know all of it. They estimate it to 2 weeks of work. They put 2 senior devs to work on that: 1 for the back-end, 1 for the front-end. After 2 weeks, they ship the feature. Unfortunately, they see something broke 1h after the release and that some customers can't pay anymore. They revert the change to stop the fire. They spend 30min together investigating. They find the root cause: in some conditions, some data is not present and the code didn't expected this scenario. They add a conditional, revert the revert, patch the code and ship again. In the following 2 weeks, they find out other little unexpected bugs that they fix progressively.
+You need to change code. When you're done, you want to know that:
 
-Team #2 also wants to try out a new feature. The code they need to change is not fully tested, and they don't know all of it. They estimate it to 3 weeks of work, as they'd start with 2 weeks of cleaning the code first. Turns out cleaning the code took 3 weeks. After 4 weeks, they finally ship the feature. No regression appeared once the code was in prod.
+- your new feature is working
+- the rest of the existing behavior is preserved
 
-Which team did the best job in delivering the feature?
+But this code is not tested.
+Also, it's hard to understand.
+Oh, and deadline is next week.
 
-It depends.
+## Who am I? (3min)
 
-If Team #1 mistakes cost a lot of money, that could be terrible for the company.
-But if the feature turns not to be relevant, Team #2 spent too much time finding it out.
+My name is Nicolas, @nicoespeon. I'm a web dev. I work at a company named Busbud. We do an app to search, compare and book intercity bus tickets across the world. If you travel to LATAM, you can use Busbud app and pay in CAD.
 
-But for sure: there is an even better way to do this.
+Our codebase is 3 major repos, 8 years old. Most of the code we're dealing with, someone else wrote it then left the company. Some of the code is tested, but it's rare to have all scenarios covered. How do we keep moving on fast?
 
-## The 3 approaches
+This talk won't be enough. I recommend you to read these books: WEWLC & Refactoring.
 
-My name is Nicolas. I'm a web dev. Twitter and website.
+Then, go on understandlegacycode.com. I'm writing a lot about that. You'll find out more.
 
-I work at a company named Busbud. We do an app to search, compare and book intercity bus tickets across the world. If you travel to Bulgaria and want to go from Sofia to Plovdiv, you can use Busbud app and pay in CAD.
+Ok, back to our problem: how to change untested code when deadline is really short?
 
-Our codebase is 3 major repos, 8 years old. I've been working at Busbud for 2 years. I'm the 3rd oldest engineer, out of 20 devs. Most of the code we're dealing with, we didn't wrote in the first place. Inherited code. Some of the code is tested, but it's rare to have all scenarios covered. How do we do?
+## 3 solutions (5min)
 
-First, this talk won't be enough. So I recommend you to read these books: WEWLC first, then Refactoring. Then, go on understandlegacycode.com. I'm writing a lot about that. You'll find out more.
+### 1. The naive. Edit and pray.
 
-Ok, back to our problem: how to best deal with untested, existing code you have to change?
+Change the code from what you understand.
+Test manually.
+Pray you didn't broke anything.
 
-3 approaches:
-1. Think hard about the code. Don't break things. Mitigate risk by putting your best devs + test on a Preview env + code review + monitor once in prod. Still, that's crossing fingers. That's Edit and Pray. It's playing with fire. It's playing your luck that you don't do any mistake. But the codebase is huge, most of it you didn't wrote and you can't anticipate every possible scenario. If you're unlucky some day, that can cost a lot. And it's stressful. Team #1
-2. Put the code under test. Clean the code. Then change the code. That's great. But that can also take a lot of time. You need to read the code, take notes, draw graphs to understand the dependencies, figure out how it works so you can write the tests how what it should do, after. It's safe, but it's slow. You can have a hard time sell that to your team. They'll beg you for a solution, a compromise. Team #2.
-3. The compromise is to put existing code into tests without having to understand it. Not completely at least. You want to set up anti-regression tests that will tell you when you break something. But you want that fast.
+Very common. Stressful. Create bugs you need to fix after the deadline.
+There's a better way.
 
-## 3rd approach: Approval Testing
+### 2. The ideal. Write the damn tests
 
-Discover Approval Testing.
+Write automated tests to check code behavior.
+Reverse engineer the specs from the code.
+Refactor the code to put tests on it.
+Add your feature on the cleaner code.
 
-Consider the code as a black box. You don't care what's inside yet.
-It has inputs and outputs.
-You want to take a picture of the output for a given set of inputs. That's a snapshot. You'll use this snapshot to verify the code still behave as before after you've changed it.
-Then, you'll find all the combinations of inputs that create different outputs. So you cover everything.
+Ideal. Takes time and skills. You'll miss the deadline.
 
-Once this is done, you've your anti-regression tests suite. You'll feel confident you can now touch the code.
-Next step is to refactor the code. Snapshot tests got your back.
-When the code is refactored, it should be easier to change and test.
-Write a test to illustrate the change you want to make. See it fail. Then make the test pass. You're done.
+So, do we give up? Are we doomed to 1) because of arbitrary deadlines?
 
-Later, you'll need to change current behavior of the code. Snapshot tests will fail, that's their job. What you do is you write better tests to illustrate the new behavior. Test should fail (behavior not implemented). You make it pass. You delete the failing snapshot test. Ultimately, you'll delete all the snapshot tests. They are not the goal, they are a mean to get you covered in the first place. Not ideal, but useful.
+### 3. The pragmatic compromise. Approval tests.
 
-2 types of inputs: direct and implicit.
-2 types of outputs: direct and side-effects.
+Characterization tests. Snapshot tests.
 
-Let's try this technique on Gilded Rose kata. It's the easy scenario (direct - direct). We won't have time to cover in details the more complex ones, but I'll give you tips to try that out on your codebase. To go further, go on understandlegacycode.com.
+3 steps recipe:
 
-## Apply on a kata
+1. 📸 Generate an output you can snapshot
+2. ✅ Use test coverage to find all input combinations
+3. 👽 Use mutations to verify your snapshots
 
-Gilded Rose Kata: coding exercise to practice refactoring. You need to change code. How to make the change simple? You need to refactor. How do you know you didn't break current behavior? You need to put tests. You can read and try to understand what the code should do to write the tests. Or you can try to write the tests from the specs. It'll take you a long time. And maybe that's not even what the code is actually doing.
+Let's see that on a live example: the Gilded Rose kata.
 
+## The Gilded Rose refactoring kata (23min)
+
+Gilded Rose Kata: coding exercise to practice refactoring.
+
+You need to change code. How to make the change simple? You need to refactor. How do you know you didn't break current behavior? You need to put tests. You can read and try to understand what the code should do to write the tests. Or you can try to write the tests from the specs. It'll take you a long time. And maybe that's not even what the code is actually doing.
+
+0. Introduce the tools.
 1. Identify output.
-2. Indentify inputs.
-3. Write a basic test with simplest inputs. Get the output.
-4. Use jest snapshots for that.
-5. What do we cover? Use test coverage to find what's missing.
-6. Vary the inputs to cover more.
-7. We've covered everything, are we safe? Mutate code to check if a test is failing. If not, find another variation of inputs.
-8. Done!
+1. Indentify inputs.
+1. Write a basic test with simplest inputs. Get the output.
+1. Use jest snapshots for that.
+1. What do we cover? Use test coverage to find what's missing.
+1. Vary the inputs to cover more.
+1. We've covered everything, are we safe? Mutate code to check if a test is failing. If not, find another variation of inputs.
+1. Done!
+1. Use jest-extended-snapshot to simplify
 
-## Going further
+## Let's recap (1min)
 
-Here's my library to reduce boilerplate with jest.
+3 steps recipe:
 
-See, we were able to cover that in the talk. You don't know precisely how the code is implemented, but you covered everything with tests. Now you can play and refactor.
+1. 📸 Generate an output you can snapshot
+2. ✅ Use test coverage to find all input combinations
+3. 👽 Use mutations to verify your snapshots
 
-What if inputs are implicit? Pass them as params. It's ugly but you need that first. It's better than breaking prod. It's Breaking Dependency. Just do that, don't be smart, because it's risky: you don't have the tests yet.
+## What to do next? (2min)
 
-What if outputs are side-effects? Introduce a sensing variable. Add a param with default noop. Call that param with values of the side-effects calls. In tests, make that param generate the snapshot. Compare the snapshots.
+You're safe now. 2 options:
 
-There's more because it's a case-by-case situation and it's only a 40min talk. But these are things you can try to get moving. To learn more, go on understandlegacycode.com.
+1. If you have enough time, refactor the code first.
+2. If you don't, use the Sprout Method technique: create your code elsewhere and call it.
+
+That way, you can test the code you add.
+
+## Why you should NOT keep these tests (3min)
+
+Snapshot tests are not that awesome:
+
+- you capture existing behavior, bugs included
+- tests will fail whenever you change the behavior, even if it’s intended
+- you can’t read the tests and understand what the code does
+
+They are noisy and provide low value. If you keep them, they'll fail whenever you change the code.
+
+So people will just update them. They won't be useful anymore. They just get in the way.
+
+Delete them. Or have a plan to replace them with proper tests, after the deadline is over.
+
+## Conclusion (2min)
+
+This technique is to help you deliver with a short deadline, without breaking the code.
+
+3 steps recipe:
+
+1. 📸 Generate an output you can snapshot
+2. ✅ Use test coverage to find all input combinations
+3. 👽 Use mutations to verify your snapshots
+
+To learn more techniques, understandlegacycode.com. Newsletter, weekly concrete tips to deal with Legacy Code.
+
+Here are the resources of this talk (slides, repo & info): TODO: bit.ly to ULC dedicated page.
