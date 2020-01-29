@@ -6,8 +6,6 @@ Who is working with existing code that you didn't wrote and is not tested?
 
 ## The Problem (2min)
 
-> The code requires significant changes to support unit tests. I have deadlines to meet!
-
 You need to change code. When you're done, you want to know that:
 
 - your new feature is working
@@ -17,11 +15,15 @@ But this code is not tested.
 Also, it's hard to understand.
 Oh, and deadline is next week.
 
+> The code requires significant changes to support unit tests. I have deadlines to meet!
+
 ## Who am I? (3min)
 
-My name is Nicolas, @nicoespeon. I'm a web dev. I work at a company named Busbud. We do an app to search, compare and book intercity bus tickets across the world. If you travel to LATAM, you can use Busbud app and pay in CAD.
+My name is Nicolas Carlo, @nicoespeon.
 
-Our codebase is 3 major repos, 8 years old. Most of the code we're dealing with, someone else wrote it then left the company. Some of the code is tested, but it's rare to have all scenarios covered. How do we keep moving on fast?
+I'm a web dev. I work at a company named Busbud. We do an app to search, compare and book intercity bus tickets across the world. If you travel to LATAM, you can use Busbud app and pay in CAD.
+
+Our codebase is 3 major repos, 8 years old. Most of the code, someone else wrote it then left the company. How do we keep moving on fast?
 
 This talk won't be enough. I recommend you to read these books: WEWLC & Refactoring.
 
@@ -78,7 +80,7 @@ You need to change code. How to make the change simple? You need to refactor. Ho
 1. Vary the inputs to cover more.
 1. We've covered everything, are we safe? Mutate code to check if a test is failing. If not, find another variation of inputs.
 1. Done!
-1. Use jest-extended-snapshot to simplify
+1. Use jest-extended-snapshot to simplify (?)
 
 ## Let's recap (1min)
 
@@ -93,7 +95,7 @@ You need to change code. How to make the change simple? You need to refactor. Ho
 You're safe now. 2 options:
 
 1. If you have enough time, refactor the code first.
-2. If you don't, use the Sprout Method technique: create your code elsewhere and call it.
+2. If you don't, create your code elsewhere and call it.
 
 That way, you can test the code you add.
 
@@ -101,13 +103,14 @@ That way, you can test the code you add.
 
 Snapshot tests are not that awesome:
 
-- you capture existing behavior, bugs included
-- tests will fail whenever you change the behavior, even if it’s intended
-- you can’t read the tests and understand what the code does
+1. you capture existing behavior, bugs included
 
+2. tests will fail whenever you change the behavior, even if it’s intended
 They are noisy and provide low value. If you keep them, they'll fail whenever you change the code.
 
 So people will just update them. They won't be useful anymore. They just get in the way.
+
+3. you can’t read the tests and understand what the code does
 
 Delete them. Or have a plan to replace them with proper tests, after the deadline is over.
 
