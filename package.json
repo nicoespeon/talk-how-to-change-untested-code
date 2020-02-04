@@ -1,0 +1,38 @@
+{
+  "name": "talk-change-untested-code",
+  "version": "1.0.0",
+  "description": "Slides of my talk \"I need to change this code, but it has no test!\"",
+  "main": "N/A",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicoespeon/talk-how-to-change-untested-code.git"
+  },
+  "keywords": [
+    "talk",
+    "slides",
+    "conference",
+    "approval",
+    "tests",
+    "legacy",
+    "code"
+  ],
+  "author": "Nicolas Carlo <nicolascarlo.espeon@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nicoespeon/talk-how-to-change-untested-code/issues"
+  },
+  "homepage": "https://github.com/nicoespeon/talk-how-to-change-untested-code#readme",
+  "dependencies": {
+    "jest": "25.1.0",
+    "jest-extended-snapshot": "1.0.1"
+  },
+  "jest": {
+    "coverageReporters": [
+      "html"
+    ],
+    "setupFilesAfterEnv": ["jest-extended-snapshot"]
+  }
+}
