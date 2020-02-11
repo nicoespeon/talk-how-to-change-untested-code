@@ -27,12 +27,14 @@
   "homepage": "https://github.com/nicoespeon/talk-how-to-change-untested-code#readme",
   "dependencies": {
     "jest": "25.1.0",
-    "jest-extended-snapshot": "1.0.1"
+    "jest-extended-snapshot": "1.1.0"
   },
   "jest": {
     "coverageReporters": [
       "html"
     ],
-    "setupFilesAfterEnv": ["jest-extended-snapshot"]
+    "setupFilesAfterEnv": [
+      "jest-extended-snapshot"
+    ]
   }
 }
