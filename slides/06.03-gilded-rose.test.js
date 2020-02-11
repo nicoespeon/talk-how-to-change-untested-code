@@ -1,6 +1,6 @@
 const { Item, Shop } = require("./06.02-gilded-rose");
 
-it("should not throw", () => {
+it("should update quality", () => {
   const gildedRose = new Shop([new Item("foo", 0, 0)]);
 
   const items = gildedRose.updateQuality();
