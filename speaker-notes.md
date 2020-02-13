@@ -25,7 +25,7 @@ I'm a web dev. I work at a company named Busbud. We do an app to search, compare
 
 Our codebase is 3 major repos, 8 years old. Most of the code, someone else wrote it then left the company. How do we keep moving on fast?
 
-This talk won't be enough. I recommend you to read these books: WEWLC & Refactoring.
+This talk won't be enough. I recommend you to read these books: Working Effectively with Legacy Code & Refactoring.
 
 Then, go on understandlegacycode.com. I'm writing a lot about that. You'll find out more.
 
@@ -80,7 +80,7 @@ You need to change code. How to make the change simple? You need to refactor. Ho
 1. Vary the inputs to cover more.
 1. We've covered everything, are we safe? Mutate code to check if a test is failing. If not, find another variation of inputs.
 1. Done!
-1. Use jest-extended-snapshot to simplify (?)
+1. Use jest-extended-snapshot to simplify
 
 ## Let's recap (1min)
 
@@ -106,6 +106,7 @@ Snapshot tests are not that awesome:
 1. you capture existing behavior, bugs included
 
 2. tests will fail whenever you change the behavior, even if it’s intended
+
 They are noisy and provide low value. If you keep them, they'll fail whenever you change the code.
 
 So people will just update them. They won't be useful anymore. They just get in the way.
